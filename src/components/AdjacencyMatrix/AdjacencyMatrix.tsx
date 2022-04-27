@@ -59,22 +59,20 @@ const AdjacencyMatrix = ({
   const newNodeRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    // console.log("Data has changed", data);
     onDataChange && onDataChange(data);
-  }, [data]);
+  }, [data, onDataChange]);
 
   useEffect(() => {
-    // console.log("Labels have changed", labels);
     onLabelChange && onLabelChange(labels);
-  }, [labels]);
+  }, [labels, onLabelChange]);
 
   useEffect(() => {
     onDirectedChange && onDirectedChange(isDirected);
-  }, [isDirected]);
+  }, [isDirected, onDirectedChange]);
 
   useEffect(() => {
     onRootChange && onRootChange([root, root]);
-  }, [root]);
+  }, [root, onRootChange]);
 
   if (!labels) return null;
 
@@ -188,7 +186,9 @@ const AdjacencyMatrix = ({
           <FormGroup className={styles["options-container"]}>
             <Select value={root} onChange={(e: any) => setRoot(e.target.value)}>
               {labels.map((label, i) => (
-                <MenuItem value={i}>{label}</MenuItem>
+                <MenuItem value={i} key={`menu-item-${i}`}>
+                  {label}
+                </MenuItem>
               ))}
             </Select>
             <FormControlLabel

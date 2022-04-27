@@ -36,7 +36,7 @@ const AlgorithmControls = ({
     workingSteps.push(finalStep);
     setSteps(workingSteps);
     setActiveStep(-1);
-  }, [generator]);
+  }, [generator, labels]);
 
   const handleNext = () => {
     if (activeStep >= steps.length - 1) return;

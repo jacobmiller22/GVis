@@ -5,7 +5,6 @@ import { arr2mat, SymmetricMatrix } from "lib/matrix";
 import { bfs } from "lib/algo";
 import { Button, MenuItem, Select, Typography } from "@mui/material";
 import styles from "./BFSView.module.css";
-import useLocalStorageState from "use-local-storage-state";
 
 const BFSView = () => {
   const [savedData, setSavedData] = useLocalStorage("bfsData", INIT_BFS_DATA);
@@ -13,15 +12,7 @@ const BFSView = () => {
     "bfsLabels",
     INIT_BFS_LABELS
   );
-  // const [savedData, setSavedData] = useLocalStorageState("bfsData", {
-  //   ssr: true,
-  //   defaultValue: INIT_BFS_DATA,
-  // });
-  console.log("Saved data", savedData);
-  // const [savedLabels, setSavedLabels] = useLocalStorageState("bfsLabels", {
-  //   ssr: true,
-  //   defaultValue: INIT_BFS_LABELS,
-  // });
+
   const [bfsData, setBfsData] = useState<SymmetricMatrix>(savedData);
   const [bfsLabels, setBfsLabels] = useState<string[]>(savedLabels);
   const [bfsGenerator, setBfsGenerator] = useState<any>(null);
@@ -65,7 +56,7 @@ const BFSView = () => {
     setBfsLabels(INIT_BFS_LABELS);
     window?.location.reload();
   };
-  console.log("bfsLabels", bfsLabels);
+
   return (
     <div className={styles["container"]}>
       <Typography variant="h5">Breadth First Search</Typography>
