@@ -1,4 +1,3 @@
-import { dir } from "console";
 import { SymmetricMatrix, Edge, Matrix } from "./matrix";
 
 export function* bfs(
