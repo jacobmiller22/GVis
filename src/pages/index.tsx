@@ -7,7 +7,7 @@ const IndexPage: NextPage = () => {
   return (
     <div id="root">
       <Head>
-        <title>Index Page</title>
+        <title>GVis</title>
       </Head>
       <Layout>
         <IndexView />

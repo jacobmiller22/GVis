@@ -35,6 +35,7 @@ const AlgorithmControls = ({
 
     workingSteps.push(finalStep);
     setSteps(workingSteps);
+    setActiveStep(-1);
   }, [generator]);
 
   const handleNext = () => {
@@ -63,9 +64,9 @@ const AlgorithmControls = ({
           <Button onClick={handlePrev} disabled={activeStep <= -1}>
             Prev
           </Button>
-          <span>
+          <Typography variant="body1" component="span">
             {activeStep + 1} / {steps.length}
-          </span>
+          </Typography>
           <Button
             onClick={handleNext}
             disabled={activeStep >= steps.length - 1}

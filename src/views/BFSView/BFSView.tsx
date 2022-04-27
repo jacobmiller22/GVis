@@ -1,22 +1,43 @@
 import { useState, useEffect } from "react";
+import { useLocalStorage } from "hooks";
 import { AdjacencyMatrix, SimulationControls } from "components";
 import { arr2mat, SymmetricMatrix } from "lib/matrix";
 import { bfs } from "lib/algo";
-import { Typography } from "@mui/material";
+import { Button, MenuItem, Select, Typography } from "@mui/material";
 import styles from "./BFSView.module.css";
+import useLocalStorageState from "use-local-storage-state";
 
 const BFSView = () => {
-  const [bfsData, setBfsData] = useState<SymmetricMatrix>(INIT_BFS_DATA);
-  const [bfsLabels, setBfsLabels] = useState<string[]>(INIT_BFS_LABELS);
+  const [savedData, setSavedData] = useLocalStorage("bfsData", INIT_BFS_DATA);
+  const [savedLabels, setSavedLabels] = useLocalStorage(
+    "bfsLabels",
+    INIT_BFS_LABELS
+  );
+  // const [savedData, setSavedData] = useLocalStorageState("bfsData", {
+  //   ssr: true,
+  //   defaultValue: INIT_BFS_DATA,
+  // });
+  console.log("Saved data", savedData);
+  // const [savedLabels, setSavedLabels] = useLocalStorageState("bfsLabels", {
+  //   ssr: true,
+  //   defaultValue: INIT_BFS_LABELS,
+  // });
+  const [bfsData, setBfsData] = useState<SymmetricMatrix>(savedData);
+  const [bfsLabels, setBfsLabels] = useState<string[]>(savedLabels);
   const [bfsGenerator, setBfsGenerator] = useState<any>(null);
   const [isDirected, setIsDirected] = useState<boolean>(false);
   const [active, setActive] = useState<[number, number][]>([]);
   const [highlighted, setHighlighted] = useState<[number, number][]>([]);
+  const [root, setRoot] = useState<[number, number]>([0, 0]);
 
   useEffect(() => {
     // Update the BFS Generator function with the new matrix.
-    setBfsGenerator(bfs(bfsData, [0, 0], isDirected));
-  }, [bfsData, isDirected]);
+    setBfsGenerator(bfs(bfsData, root, isDirected));
+    setSavedData(bfsData);
+    setSavedLabels(bfsLabels);
+    setActive([]);
+    setHighlighted([]);
+  }, [bfsData, isDirected, bfsLabels, root]);
 
   const onDataChange = (mat: SymmetricMatrix) => {
     const newMatrix = { n: mat.n, data: [...mat.data] };
@@ -28,6 +49,10 @@ const BFSView = () => {
     setBfsLabels(newLabels);
   };
 
+  const onRootChange = (root: [number, number]) => {
+    setRoot(root);
+  };
+
   const onIteration = (steps: { msg: string; edges: [number, number][] }[]) => {
     setActive([...steps[steps.length - 1].edges]);
     let h: [number, number][] = steps.flatMap((step) => step.edges);
@@ -35,6 +60,12 @@ const BFSView = () => {
     setHighlighted([...h]);
   };
 
+  const resetData = () => {
+    setBfsData(INIT_BFS_DATA);
+    setBfsLabels(INIT_BFS_LABELS);
+    window?.location.reload();
+  };
+  console.log("bfsLabels", bfsLabels);
   return (
     <div className={styles["container"]}>
       <Typography variant="h5">Breadth First Search</Typography>
@@ -43,6 +74,7 @@ const BFSView = () => {
         breadth over depth as the name suggests. The graph and its resulting
         spanning tree will be represented by the below adjacency matrix.
       </Typography>
+
       <AdjacencyMatrix
         initialLabels={bfsLabels}
         initialMatrix={bfsData}
@@ -51,6 +83,7 @@ const BFSView = () => {
         onLabelChange={onLabelChange}
         active={active}
         highlighted={highlighted}
+        onRootChange={onRootChange}
       />
 
       <SimulationControls
@@ -58,6 +91,10 @@ const BFSView = () => {
         labels={bfsLabels}
         onIteration={onIteration}
       />
+      <div>
+        <div style={{ flexGrow: 1 }} />
+        <Button onClick={resetData}>Reset Data</Button>
+      </div>
     </div>
   );
 };

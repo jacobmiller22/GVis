@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   enforceSymmetry,
   MatrixData,
@@ -14,7 +14,9 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -32,6 +34,7 @@ type AdjacencyMatrixProps = {
   onDirectedChange: (isDirected: boolean) => void;
   onDataChange?: (...any: any[]) => void;
   onLabelChange?: (...any: any[]) => void;
+  onRootChange?: (root: [number, number]) => void;
   active?: [number, number][];
   highlighted?: [number, number][];
 };
@@ -42,6 +45,7 @@ const AdjacencyMatrix = ({
   onDirectedChange,
   onDataChange,
   onLabelChange,
+  onRootChange,
   active,
   highlighted,
 }: AdjacencyMatrixProps) => {
@@ -51,6 +55,7 @@ const AdjacencyMatrix = ({
   const [data, setData] = useState<SymmetricMatrix>(initialMatrix);
   const [isDirected, setIsDirected] = useState<boolean>(false);
   const [newNode, setNewNode] = useState<string>("");
+  const [root, setRoot] = useState<number>(0);
   const newNodeRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -66,6 +71,12 @@ const AdjacencyMatrix = ({
   useEffect(() => {
     onDirectedChange && onDirectedChange(isDirected);
   }, [isDirected]);
+
+  useEffect(() => {
+    onRootChange && onRootChange([root, root]);
+  }, [root]);
+
+  if (!labels) return null;
 
   if (labels.length < data.n) {
     throw new Error("Length of labels must be greater or equal to data.");
@@ -94,7 +105,7 @@ const AdjacencyMatrix = ({
     matData.push(new Array(data.n + 1).fill(null)); // Add a new row to the data array.
     matData[matData.length - 1][matData[0].length - 1] = 0; // Set the last element to 0 (The weight of a node should be 0 by default).
     setData({ n: data.n + 1, data: matData });
-    console.log(newNodeRef);
+
     newNodeRef.current?.focus();
   };
 
@@ -175,6 +186,11 @@ const AdjacencyMatrix = ({
       <Paper variant="outlined" className={styles["table-paper"]}>
         <Toolbar className={styles["table-toolbar"]}>
           <FormGroup className={styles["options-container"]}>
+            <Select value={root} onChange={(e: any) => setRoot(e.target.value)}>
+              {labels.map((label, i) => (
+                <MenuItem value={i}>{label}</MenuItem>
+              ))}
+            </Select>
             <FormControlLabel
               className={styles["directed-container"]}
               label="Directed?"

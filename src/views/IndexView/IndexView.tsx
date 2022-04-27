@@ -13,16 +13,7 @@ const IndexView = () => {
       <section>
         <BFSView />
       </section>
-      <section>
-        <h3>DFS</h3>
-        <div>
-          {/* <AdjacencyMatrix
-            initialLabels={["A", "B", "C"]}
-            data={arr2mat([90, 48, 39, 3, 32, 5], 3)}
-            // onDataChange={onDataChange}
-          /> */}
-        </div>
-      </section>
+      {/* <section></section> */}
     </div>
   );
 };
