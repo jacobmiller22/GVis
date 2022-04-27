@@ -1,0 +1,29 @@
+.data-cell {
+  width: min-content;
+}
+.data-cell > input {
+  width: 48px;
+  aspect-ratio: 1/1;
+}
+
+.data-cell.active > input {
+  color: red !important;
+}
+
+.data-cell.highlighted > input {
+  color: orange;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.new-node-container {
+}
+
+.directed-container {
+}

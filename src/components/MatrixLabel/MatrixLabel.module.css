@@ -1,0 +1,6 @@
+.header-cell {
+}
+
+.header-cell.active {
+  color: red;
+}
