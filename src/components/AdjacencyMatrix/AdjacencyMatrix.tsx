@@ -60,19 +60,19 @@ const AdjacencyMatrix = ({
 
   useEffect(() => {
     onDataChange && onDataChange(data);
-  }, [data, onDataChange]);
+  }, [data]);
 
   useEffect(() => {
     onLabelChange && onLabelChange(labels);
-  }, [labels, onLabelChange]);
+  }, [labels]);
 
   useEffect(() => {
     onDirectedChange && onDirectedChange(isDirected);
-  }, [isDirected, onDirectedChange]);
+  }, [isDirected]);
 
   useEffect(() => {
     onRootChange && onRootChange([root, root]);
-  }, [root, onRootChange]);
+  }, [root]);
 
   if (!labels) return null;
 
@@ -145,7 +145,7 @@ const AdjacencyMatrix = ({
   const renderDataWithHeadings = (data: MatrixData) => {
     return labels.map((label, i) => {
       return (
-        <tr key={`tr-${i}`}>
+        <TableRow key={`tr-${i}`}>
           <MatrixLabel
             value={label}
             active={Boolean(active?.find(([a, _]) => a === i))}
@@ -174,7 +174,7 @@ const AdjacencyMatrix = ({
               </TableCell>
             );
           })}
-        </tr>
+        </TableRow>
       );
     });
   };

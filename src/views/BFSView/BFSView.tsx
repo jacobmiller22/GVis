@@ -5,13 +5,17 @@ import { arr2mat, SymmetricMatrix } from "lib/matrix";
 import { bfs } from "lib/algo";
 import { Button, MenuItem, Select, Typography } from "@mui/material";
 import styles from "./BFSView.module.css";
+import useLocalStorageState from "use-local-storage-state";
 
 const BFSView = () => {
-  const [savedData, setSavedData] = useLocalStorage("bfsData", INIT_BFS_DATA);
-  const [savedLabels, setSavedLabels] = useLocalStorage(
-    "bfsLabels",
-    INIT_BFS_LABELS
-  );
+  const [savedData, setSavedData] = useLocalStorageState("bfsData", {
+    ssr: false,
+    defaultValue: { ...INIT_BFS_DATA },
+  });
+  const [savedLabels, setSavedLabels] = useLocalStorageState("bfsLabels", {
+    ssr: false,
+    defaultValue: [...INIT_BFS_LABELS],
+  });
 
   const [bfsData, setBfsData] = useState<SymmetricMatrix>(savedData);
   const [bfsLabels, setBfsLabels] = useState<string[]>(savedLabels);

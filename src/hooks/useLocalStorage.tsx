@@ -1,4 +1,3 @@
-import { initial } from "lodash";
 import { useState } from "react";
 
 const useLocalStorage = (key: string, initialValue: any) => {
