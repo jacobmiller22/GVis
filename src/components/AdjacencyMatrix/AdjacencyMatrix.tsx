@@ -9,6 +9,21 @@ import clsx from "clsx";
 
 /** Components */
 import MatrixLabel from "components/MatrixLabel";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Toolbar,
+} from "@mui/material";
 import styles from "./AdjacencyMatrix.module.css";
 
 type AdjacencyMatrixProps = {
@@ -79,6 +94,7 @@ const AdjacencyMatrix = ({
     matData.push(new Array(data.n + 1).fill(null)); // Add a new row to the data array.
     matData[matData.length - 1][matData[0].length - 1] = 0; // Set the last element to 0 (The weight of a node should be 0 by default).
     setData({ n: data.n + 1, data: matData });
+    console.log(newNodeRef);
     newNodeRef.current?.focus();
   };
 
@@ -99,9 +115,9 @@ const AdjacencyMatrix = ({
 
   const renderHead = () => {
     return (
-      <thead>
-        <tr>
-          <th></th>
+      <TableHead>
+        <TableRow>
+          <TableCell></TableCell>
           {labels.map((label, i) => {
             return (
               <MatrixLabel
@@ -112,8 +128,8 @@ const AdjacencyMatrix = ({
               />
             );
           })}
-        </tr>
-      </thead>
+        </TableRow>
+      </TableHead>
     );
   };
 
@@ -128,7 +144,7 @@ const AdjacencyMatrix = ({
           />
           {labels?.map((_, j) => {
             return (
-              <td
+              <TableCell
                 key={`td-${i}-${j}`}
                 className={clsx(
                   styles["data-cell"],
@@ -146,7 +162,7 @@ const AdjacencyMatrix = ({
                   value={data?.[i]?.[j] ?? ""}
                   onChange={(e) => handleChange(i, j, e.target.value)}
                 />
-              </td>
+              </TableCell>
             );
           })}
         </tr>
@@ -155,33 +171,45 @@ const AdjacencyMatrix = ({
   };
 
   return (
-    <div>
-      <table>
-        {renderHead()}
-        <tbody>{renderDataWithHeadings(data.data)}</tbody>
-      </table>
-      <div className={styles["options-container"]}>
-        <div className={styles["new-node-container"]}>
-          <input
-            name="newNode"
-            type="text"
-            value={newNode}
-            onChange={(e) => setNewNode(e.target.value)}
-            ref={newNodeRef}
-          />
-          <button onClick={handleLabelAdd}>Add Node</button>
-        </div>
-        <div className={styles["directed-container"]}>
-          <label>
-            <input
-              type="checkbox"
-              checked={isDirected}
-              onChange={() => setIsDirected(!isDirected)}
+    <div className={styles["container"]}>
+      <Paper variant="outlined" className={styles["table-paper"]}>
+        <Toolbar className={styles["table-toolbar"]}>
+          <FormGroup className={styles["options-container"]}>
+            <FormControlLabel
+              className={styles["directed-container"]}
+              label="Directed?"
+              control={
+                <Checkbox
+                  checked={isDirected}
+                  onChange={() => setIsDirected(!isDirected)}
+                />
+              }
             />
-            Directed?
-          </label>
-        </div>
-      </div>
+            <TextField
+              name="newNode"
+              variant="outlined"
+              size="small"
+              type="text"
+              value={newNode}
+              onChange={(e) => setNewNode(e.target.value)}
+              inputRef={newNodeRef}
+            />
+            <Button variant="contained" onClick={handleLabelAdd}>
+              Add Node
+            </Button>
+          </FormGroup>
+        </Toolbar>
+        <TableContainer className={styles["table-container"]}>
+          <Table
+            className={styles["table"]}
+            sx={{ "& > *": { width: "auto !important" } }}
+          >
+            {renderHead()}
+            <TableBody>{renderDataWithHeadings(data.data)}</TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+      <div></div>
     </div>
   );
 };

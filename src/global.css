@@ -2,3 +2,9 @@
   max-width: 100%;
   width: 100%;
 }
+
+/* Theme */
+:root {
+  --accent: #00bcd4;
+  --secondary-dark: #090d3e;
+}

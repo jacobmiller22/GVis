@@ -1,5 +1,6 @@
-import "global.css";
 import type { AppProps } from "next/app";
+
+import "global.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -13,7 +14,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           height: 100%;
         }
       `}</style>
-      <Component {...pageProps} />;
+      <style global jsx>{`
+        body {
+          margin: 0;
+        }
+      `}</style>
+      <Component {...pageProps} />
     </>
   );
 }

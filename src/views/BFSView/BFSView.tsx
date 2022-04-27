@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { AdjacencyMatrix, SimulationControls } from "components";
 import { arr2mat, SymmetricMatrix } from "lib/matrix";
 import { bfs } from "lib/algo";
+import { Typography } from "@mui/material";
+import styles from "./BFSView.module.css";
 
 const BFSView = () => {
   const [bfsData, setBfsData] = useState<SymmetricMatrix>(INIT_BFS_DATA);
@@ -34,19 +36,22 @@ const BFSView = () => {
   };
 
   return (
-    <div>
-      <h3>BFS</h3>
-      <div>
-        <AdjacencyMatrix
-          initialLabels={bfsLabels}
-          initialMatrix={bfsData}
-          onDirectedChange={setIsDirected}
-          onDataChange={onDataChange}
-          onLabelChange={onLabelChange}
-          active={active}
-          highlighted={highlighted}
-        />
-      </div>
+    <div className={styles["container"]}>
+      <Typography variant="h5">Breadth First Search</Typography>
+      <Typography variant="body1">
+        This algorithm is used to find a spanning tree of a graph. It prefers
+        breadth over depth as the name suggests. The graph and its resulting
+        spanning tree will be represented by the below adjacency matrix.
+      </Typography>
+      <AdjacencyMatrix
+        initialLabels={bfsLabels}
+        initialMatrix={bfsData}
+        onDirectedChange={setIsDirected}
+        onDataChange={onDataChange}
+        onLabelChange={onLabelChange}
+        active={active}
+        highlighted={highlighted}
+      />
 
       <SimulationControls
         generator={bfsGenerator}

@@ -8,7 +8,7 @@ const IndexView = () => {
   // const [useLocal, setUseLocal] = useState(false);
 
   return (
-    <div id="root">
+    <div>
       <div></div>
       <section>
         <BFSView />

@@ -1,4 +1,8 @@
 import clsx from "clsx";
+
+/** Components */
+import { IconButton, TableCell } from "@mui/material";
+import RemoveIcon from "@mui/icons-material/Remove";
 import styles from "./MatrixLabel.module.css";
 
 type MatrixLabelProps = {
@@ -9,10 +13,14 @@ type MatrixLabelProps = {
 
 const MatrixLabel = ({ value, onDelete, active }: MatrixLabelProps) => {
   return (
-    <th className={clsx(styles["header-cell"], active ? styles["active"] : {})}>
+    <TableCell
+      className={clsx(styles["header-cell"], active ? styles["active"] : {})}
+    >
       {value}
-      <button onClick={onDelete}>-</button>
-    </th>
+      <IconButton onClick={onDelete} size="small" edge="start">
+        <RemoveIcon />
+      </IconButton>
+    </TableCell>
   );
 };
 

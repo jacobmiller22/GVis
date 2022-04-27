@@ -1,3 +1,4 @@
+import { Button, Paper, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 
 import styles from "./SimulationControls.module.css";
@@ -56,32 +57,30 @@ const AlgorithmControls = ({
   };
 
   return (
-    <div>
+    <Paper variant="outlined" className={styles["container"]}>
       <div>
         <span>
-          <button onClick={handlePrev} disabled={activeStep <= -1}>
+          <Button onClick={handlePrev} disabled={activeStep <= -1}>
             Prev
-          </button>
+          </Button>
           <span>
             {activeStep + 1} / {steps.length}
           </span>
-          <button
+          <Button
             onClick={handleNext}
             disabled={activeStep >= steps.length - 1}
           >
             Next
-          </button>
+          </Button>
         </span>
-        <span>
+        {/* <span>
           <button>Play</button>
-          {/* <label htmlFor="speed">Speed:</label>
-        <input name="speed" type="number" /> */}
-        </span>
+        </span> */}
       </div>
-      <div>
-        <div>{steps[activeStep]?.msg || ""}</div>
+      <div className={styles["message-container"]}>
+        <Typography>{steps[activeStep]?.msg || ""}</Typography>
       </div>
-    </div>
+    </Paper>
   );
 };
 
