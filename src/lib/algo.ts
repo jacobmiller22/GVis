@@ -71,13 +71,19 @@ export function* dfs(
 ) {
   const stack = [root];
   const visited = new Set<string>();
+  const nodesVisited = new Set<Number>();
   console.clear();
   let front = undefined;
   while ((front = stack.pop())) {
     const [i, j] = front;
 
+    console.log(front);
     // Check if we have already visited this node
-
+    if (nodesVisited.has(j) && nodesVisited.has(i)) {
+      continue;
+    }
+    nodesVisited.add(j);
+    nodesVisited.add(i);
     if (wasVisited(visited, mat, i, j)) {
       continue;
     }
