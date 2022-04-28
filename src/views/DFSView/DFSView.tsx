@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { AdjacencyMatrix, SimulationControls } from "components";
 import { arr2mat, SymmetricMatrix } from "lib/matrix";
-import { bfs } from "lib/algo";
+import { dfs } from "lib/algo";
 import { Typography } from "@mui/material";
-import styles from "./BFSView.module.css";
+import styles from "./DFSView.module.css";
 import useLocalStorageState from "use-local-storage-state";
 
-const BFSView = () => {
+const DFSView = () => {
   const [savedData, setSavedData] = useLocalStorageState("bfsData", {
     ssr: false,
     defaultValue: { ...INIT_BFS_DATA },
@@ -18,15 +18,15 @@ const BFSView = () => {
 
   const [bfsData, setBfsData] = useState<SymmetricMatrix>(savedData);
   const [bfsLabels, setBfsLabels] = useState<string[]>(savedLabels);
-  const [bfsGenerator, setBfsGenerator] = useState<any>(null);
+  const [dfsGenerator, setDfsGenerator] = useState<any>(null);
   const [isDirected, setIsDirected] = useState<boolean>(false);
   const [active, setActive] = useState<[number, number][]>([]);
   const [highlighted, setHighlighted] = useState<[number, number][]>([]);
   const [root, setRoot] = useState<[number, number]>([0, 0]);
 
   useEffect(() => {
-    // Update the BFS Generator function with the new matrix.
-    setBfsGenerator(bfs(bfsData, root, isDirected));
+    // Update the DFS Generator function with the new matrix.
+    setDfsGenerator(dfs(bfsData, root, isDirected));
     setSavedData(bfsData);
     setSavedLabels(bfsLabels);
     setActive([]);
@@ -56,12 +56,8 @@ const BFSView = () => {
 
   return (
     <div className={styles["container"]}>
-      <Typography variant="h5">Breadth First Search</Typography>
-      <Typography variant="body1">
-        This algorithm is used to find a spanning tree of a graph. It prefers
-        breadth over depth as the name suggests. The graph and its resulting
-        spanning tree will be represented by the below adjacency matrix.
-      </Typography>
+      <Typography variant="h5">Depth First Search</Typography>
+      <Typography variant="body1">{intro}</Typography>
 
       <AdjacencyMatrix
         initialLabels={bfsLabels}
@@ -75,7 +71,7 @@ const BFSView = () => {
       />
 
       <SimulationControls
-        generator={bfsGenerator}
+        generator={dfsGenerator}
         labels={bfsLabels}
         onIteration={onIteration}
       />
@@ -83,7 +79,13 @@ const BFSView = () => {
   );
 };
 
-export default BFSView;
+export default DFSView;
 
 const INIT_BFS_DATA = arr2mat([0, 48, 39, 0, 32, 0], 3);
 const INIT_BFS_LABELS = ["A", "B", "C"];
+
+const intro = `
+This algorithm is used to find a spanning tree of a graph. It prefers
+depth over breadth as the name suggests. The graph and its resulting
+spanning tree will be represented by the below adjacency matrix. 
+`;

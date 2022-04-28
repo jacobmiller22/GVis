@@ -1,6 +1,7 @@
 /** Components */
 import { Divider } from "@mui/material";
 import { Footer, Header } from "./components";
+import styles from "./Layout.module.css";
 
 type LayoutProps = {
   children: React.ReactNode | React.ReactNode[];
@@ -8,10 +9,10 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <div className={styles["container"]}>
       <Header />
       <Divider />
-      <div className="content">{children}</div>
+      <div className={styles["content"]}>{children}</div>
       <div style={{ flexGrow: 1 }} />
       <Footer />
     </div>

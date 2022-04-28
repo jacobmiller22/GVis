@@ -2,8 +2,11 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  min-height: 128px;
+  margin-top: 1rem;
+  padding-top: 1rem;
 }
 
 .message-container {

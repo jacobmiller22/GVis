@@ -1,10 +1,12 @@
 import type { AppProps } from "next/app";
 
 import "global.css";
+import theme from "theme";
+import { ThemeProvider } from "@mui/material";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <style global jsx>{`
         html,
         body,
@@ -20,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <Component {...pageProps} />
-    </>
+    </ThemeProvider>
   );
 }
 

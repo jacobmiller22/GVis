@@ -12,8 +12,10 @@ import MatrixLabel from "components/MatrixLabel";
 import {
   Button,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
+  InputLabel,
   MenuItem,
   Paper,
   Select,
@@ -26,6 +28,7 @@ import {
   TextField,
   Toolbar,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import styles from "./AdjacencyMatrix.module.css";
 
 type AdjacencyMatrixProps = {
@@ -122,6 +125,11 @@ const AdjacencyMatrix = ({
     setLabels(newLabels);
   };
 
+  const clearData = () => {
+    setLabels([]);
+    setData({ n: 0, data: [] });
+  };
+
   const renderHead = () => {
     return (
       <TableHead>
@@ -183,16 +191,24 @@ const AdjacencyMatrix = ({
     <div className={styles["container"]}>
       <Paper variant="outlined" className={styles["table-paper"]}>
         <Toolbar className={styles["table-toolbar"]}>
-          <FormGroup className={styles["options-container"]}>
-            <Select value={root} onChange={(e: any) => setRoot(e.target.value)}>
-              {labels.map((label, i) => (
-                <MenuItem value={i} key={`menu-item-${i}`}>
-                  {label}
-                </MenuItem>
-              ))}
-            </Select>
+          <FormGroup className={styles["start-node-container"]}>
+            <FormControl>
+              <InputLabel>Root Node</InputLabel>
+              <Select
+                value={root}
+                onChange={(e: any) => setRoot(e.target.value)}
+                label="Root Node"
+              >
+                {labels.map((label, i) => (
+                  <MenuItem value={i} key={`menu-item-${i}`}>
+                    {label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </FormGroup>
+          <FormGroup className={styles["directed-container"]}>
             <FormControlLabel
-              className={styles["directed-container"]}
               label="Directed?"
               control={
                 <Checkbox
@@ -201,21 +217,33 @@ const AdjacencyMatrix = ({
                 />
               }
             />
+          </FormGroup>
+          <div className={styles["new-node-container"]}>
             <TextField
               name="newNode"
               variant="outlined"
+              label="New Node"
               size="small"
               type="text"
               value={newNode}
               onChange={(e) => setNewNode(e.target.value)}
               inputRef={newNodeRef}
             />
-            <Button variant="contained" onClick={handleLabelAdd}>
-              Add Node
+            <Button
+              variant="contained"
+              onClick={handleLabelAdd}
+              endIcon={<AddIcon />}
+            >
+              Add
             </Button>
-          </FormGroup>
+          </div>
+          <div>
+            <Button color="primary" variant="outlined" onClick={clearData}>
+              Clear
+            </Button>
+          </div>
         </Toolbar>
-        <TableContainer className={styles["table-container"]}>
+        <div className={styles["table-container"]}>
           <Table
             className={styles["table"]}
             sx={{ "& > *": { width: "auto !important" } }}
@@ -223,7 +251,7 @@ const AdjacencyMatrix = ({
             {renderHead()}
             <TableBody>{renderDataWithHeadings(data.data)}</TableBody>
           </Table>
-        </TableContainer>
+        </div>
       </Paper>
       <div></div>
     </div>
