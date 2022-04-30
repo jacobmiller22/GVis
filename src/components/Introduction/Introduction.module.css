@@ -1,12 +1,4 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.intro {
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -14,7 +6,7 @@
   flex-wrap: wrap;
 }
 
-.intro > * {
+.container > * {
   width: 100%;
 }
 

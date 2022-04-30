@@ -23,7 +23,18 @@ const theme: Theme = createTheme({
     contentWidth: "1000px",
   },
   typography: {
-    fontFamily: "Lato",
+    fontFamily: [
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
   },
   zIndex: {
     appBar: 1200,
