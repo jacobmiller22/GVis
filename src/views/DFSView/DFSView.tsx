@@ -1,22 +1,16 @@
 import { useState, useEffect } from "react";
-import {
-  AdjacencyMatrix,
-  BackButton,
-  Introduction,
-  SimulationControls,
-} from "components";
+import { AdjacencyMatrix, Introduction, SimulationControls } from "components";
 import { arr2mat, SymmetricMatrix } from "lib/matrix";
 import { dfs } from "lib/algo";
-import { Divider, Typography } from "@mui/material";
 import styles from "./DFSView.module.css";
 import useLocalStorageState from "use-local-storage-state";
 
 const DFSView = () => {
-  const [savedData, setSavedData] = useLocalStorageState("bfsData", {
+  const [savedData, setSavedData] = useLocalStorageState("dfsData", {
     ssr: false,
     defaultValue: { ...INIT_BFS_DATA },
   });
-  const [savedLabels, setSavedLabels] = useLocalStorageState("bfsLabels", {
+  const [savedLabels, setSavedLabels] = useLocalStorageState("dfsLabels", {
     ssr: false,
     defaultValue: [...INIT_BFS_LABELS],
   });

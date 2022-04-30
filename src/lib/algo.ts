@@ -1,4 +1,4 @@
-import { SymmetricMatrix, Edge, Matrix } from "./matrix";
+import { SymmetricMatrix, Edge } from "./matrix";
 
 export function* bfs(
   mat: SymmetricMatrix,
@@ -6,14 +6,21 @@ export function* bfs(
   directed: boolean = false
 ) {
   const visited = new Set<string>();
+  const nodesVisited = new Set<Number>();
   const queue = [root];
   visited.add(JSON.stringify(root));
+  nodesVisited.add(root[0]);
 
   let front = undefined;
   while ((front = queue.shift())) {
     const [i, j] = front;
 
     for (let [i2, j2] of adjacentEdges(mat, i, j)) {
+      if (nodesVisited.has(i2) && nodesVisited.has(j2)) {
+        continue;
+      }
+      nodesVisited.add(j);
+
       if (visited.has(JSON.stringify([i2, j2]))) {
         // Ignore if already visited
         continue;
@@ -119,14 +126,8 @@ function wasVisited(
   if (i < 0 || i >= mat.n || j < 0 || j >= mat.n) {
     return true;
   }
-  // if (i === j) {
-  //   return true;
-  // }
 
   // Check if we have already visited this node
   const key = JSON.stringify([i, j]);
   return visited.has(key);
 }
-
-var dRow = [0, 1, 0, -1];
-var dCol = [-1, 0, 1, 0];

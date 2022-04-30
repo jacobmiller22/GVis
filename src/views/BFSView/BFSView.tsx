@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react";
-import {
-  AdjacencyMatrix,
-  BackButton,
-  Introduction,
-  SimulationControls,
-} from "components";
+import { AdjacencyMatrix, Introduction, SimulationControls } from "components";
 import { arr2mat, SymmetricMatrix } from "lib/matrix";
 import { bfs } from "lib/algo";
-import { Divider, Typography } from "@mui/material";
+
 import styles from "./BFSView.module.css";
 import useLocalStorageState from "use-local-storage-state";
 
