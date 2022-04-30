@@ -21,8 +21,8 @@ const IndexView = () => {
       <section>
         <Typography variant="h6">Visualizers</Typography>
         <List>
-          {algorithms.map(({ href, label }) => (
-            <Link href={href} passHref>
+          {algorithms.map(({ href, label }, i: number) => (
+            <Link href={href} passHref key={`algorithm-${i}`}>
               <ListItem divider className={styles["link"]}>
                 <ListItemText className={styles["link"]}>{label}</ListItemText>
                 <ChevronRightIcon className={styles["link-sibling"]} />
@@ -32,8 +32,19 @@ const IndexView = () => {
         </List>
       </section>
       <section>
-        <Typography variant="h6">About</Typography>
-        <Typography variant="body1">{about}</Typography>
+        <Typography variant="h6" gutterBottom>
+          About
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          {about}
+        </Typography>
+        <Typography variant="body1">
+          Feel free to check the code at on{" "}
+          <Link href="https://github.com/jacobmiller22/GVis">
+            <a target="_blank">Github</a>
+          </Link>
+          .
+        </Typography>
       </section>
     </div>
   );
