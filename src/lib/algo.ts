@@ -41,9 +41,9 @@ export function* bfs(
   }
 }
 
-function adjacentEdges(mat: SymmetricMatrix, i: number, j: number) {
+function adjacentEdges(mat: SymmetricMatrix, i: number, j: number): Edge[] {
   // GET edges to adjacent node at i, j
-  let edges = [];
+  let edges: Edge[] = [];
   for (let i2 = 0; i2 < mat.n; i2++) {
     if (i2 === i) {
       continue;
@@ -72,12 +72,10 @@ export function* dfs(
   const stack = [root];
   const visited = new Set<string>();
   const nodesVisited = new Set<Number>();
-  console.clear();
   let front = undefined;
   while ((front = stack.pop())) {
     const [i, j] = front;
 
-    console.log(front);
     // Check if we have already visited this node
     if (nodesVisited.has(j) && nodesVisited.has(i)) {
       continue;
@@ -107,14 +105,7 @@ export function* dfs(
           ],
     };
 
-    console.log(
-      `Adjected edges to ${i}, ${j}`,
-      JSON.stringify(adjacentEdges(mat, i, j))
-    );
-    //@ts-ignore
     stack.push(...adjacentEdges(mat, i, j));
-
-    console.log("stack", JSON.stringify(stack));
   }
 }
 
