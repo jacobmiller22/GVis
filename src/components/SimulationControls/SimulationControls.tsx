@@ -74,9 +74,6 @@ const AlgorithmControls = ({
             Next
           </Button>
         </span>
-        {/* <span>
-          <button>Play</button>
-        </span> */}
       </div>
       <div className={styles["message-container"]}>
         <Typography>{steps[activeStep]?.msg || ""}</Typography>

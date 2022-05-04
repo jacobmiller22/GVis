@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { AdjacencyMatrix, SimulationControls } from "components";
 import { arr2mat, SymmetricMatrix } from "lib/matrix";
-import { bfs } from "lib/algo";
+import { adjacencyMat2List, bfs } from "lib/algo";
 import { Typography } from "@mui/material";
 import styles from "./BFSView.module.css";
 import useLocalStorageState from "use-local-storage-state";
@@ -22,11 +22,11 @@ const BFSView = () => {
   const [isDirected, setIsDirected] = useState<boolean>(false);
   const [active, setActive] = useState<[number, number][]>([]);
   const [highlighted, setHighlighted] = useState<[number, number][]>([]);
-  const [root, setRoot] = useState<[number, number]>([0, 0]);
+  const [root, setRoot] = useState<number>(0);
 
   useEffect(() => {
     // Update the BFS Generator function with the new matrix.
-    setBfsGenerator(bfs(bfsData, root, isDirected));
+    setBfsGenerator(bfs(adjacencyMat2List(bfsData), root, isDirected));
     setSavedData(bfsData);
     setSavedLabels(bfsLabels);
     setActive([]);
@@ -43,7 +43,7 @@ const BFSView = () => {
     setBfsLabels(newLabels);
   };
 
-  const onRootChange = (root: [number, number]) => {
+  const onRootChange = (root: number) => {
     setRoot(root);
   };
 

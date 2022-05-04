@@ -37,7 +37,7 @@ type AdjacencyMatrixProps = {
   onDirectedChange: (isDirected: boolean) => void;
   onDataChange?: (...any: any[]) => void;
   onLabelChange?: (...any: any[]) => void;
-  onRootChange?: (root: [number, number]) => void;
+  onRootChange?: (root: number) => void;
   active?: [number, number][];
   highlighted?: [number, number][];
 };
@@ -74,7 +74,7 @@ const AdjacencyMatrix = ({
   }, [isDirected]);
 
   useEffect(() => {
-    onRootChange && onRootChange([root, root]);
+    onRootChange && onRootChange(root);
   }, [root]);
 
   if (!labels) return null;

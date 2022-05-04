@@ -8,12 +8,16 @@ export type Matrix = {
   n: number; // number of columns
 };
 
+export type AdjacencyList = { n: number; data: number[][] };
+
 export type SymmetricMatrix = {
   n: number; // number of rows and columns
   data: MatrixData;
 };
 
 export type Edge = [number, number];
+
+export type Node = number;
 
 export const arr2mat = (arr: (number | null)[], n: number): SymmetricMatrix => {
   // arr should have length 0.5 * m * n

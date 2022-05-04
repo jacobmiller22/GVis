@@ -1,43 +1,80 @@
-import { SymmetricMatrix, Edge, Matrix } from "./matrix";
+import { SymmetricMatrix, Edge, Matrix, AdjacencyList, Node } from "./matrix";
+
+// export function* bfs(
+//   mat: SymmetricMatrix,
+//   root: Edge,
+//   directed: boolean = false
+// ) {
+//   const visited = new Set<string>();
+//   const queue = [root];
+//   visited.add(JSON.stringify(root));
+
+//   let front = undefined;
+//   while () {
+//     const [i, j] = front;
+
+//     for (let [i2, j2] of adjacentEdges(mat, i, j)) {
+//       if (visited.has(JSON.stringify([i2, j2]))) {
+//         // Ignore if already visited
+//         continue;
+//       }
+//       // Add nodes to the queue
+//       visited.add(JSON.stringify([i2, j2]));
+//       if (!directed) {
+//         visited.add(JSON.stringify([j2, i2]));
+//       }
+//       queue.push([i2, j2]);
+
+//       const msg = directed
+//         ? `Include edge ${i2} -> ${j2}`
+//         : `Include edge ${i2} <-> ${j2}`;
+//       yield {
+//         msg,
+//         edges: directed
+//           ? [[i2, j2]]
+//           : [
+//               [i2, j2],
+//               [j2, i2],
+//             ],
+//       };
+//     }
+//   }
+// }
 
 export function* bfs(
-  mat: SymmetricMatrix,
-  root: Edge,
+  list: AdjacencyList,
+  root: Node,
   directed: boolean = false
 ) {
-  const visited = new Set<string>();
-  const queue = [root];
-  visited.add(JSON.stringify(root));
+  const visited: Set<Node> = new Set<Node>();
 
-  let front = undefined;
-  while ((front = queue.shift())) {
-    const [i, j] = front;
+  let queue: Node[] = [root];
+  visited.add(root);
+  let front: Node | undefined;
+  while ((front = queue.shift()) !== undefined) {
+    for (let i = 0; i < list.n; i++) {
+      if (
+        list.data[front][i] != null &&
+        list.data[front][i] !== -1 &&
+        !visited.has(i)
+      ) {
+        visited.add(i);
+        queue.push(i);
 
-    for (let [i2, j2] of adjacentEdges(mat, i, j)) {
-      if (visited.has(JSON.stringify([i2, j2]))) {
-        // Ignore if already visited
-        continue;
+        const msg = `Include edge ${front} ${!directed ? "<" : ""}-> ${i}`;
+
+        yield {
+          msg,
+          edges: directed
+            ? [[front, i]]
+            : [
+                [front, i],
+                [i, front],
+              ],
+        };
       }
-      // Add nodes to the queue
-      visited.add(JSON.stringify([i2, j2]));
-      if (!directed) {
-        visited.add(JSON.stringify([j2, i2]));
-      }
-      queue.push([i2, j2]);
-
-      const msg = directed
-        ? `Include edge ${i2} -> ${j2}`
-        : `Include edge ${i2} <-> ${j2}`;
-      yield {
-        msg,
-        edges: directed
-          ? [[i2, j2]]
-          : [
-              [i2, j2],
-              [j2, i2],
-            ],
-      };
     }
+    // front = queue.shift();
   }
 }
 
@@ -131,5 +168,19 @@ function wasVisited(
   return visited.has(key);
 }
 
-var dRow = [0, 1, 0, -1];
-var dCol = [-1, 0, 1, 0];
+// Adjacency matrix to adjacency list
+export function adjacencyMat2List(mat: SymmetricMatrix): AdjacencyList {
+  // array of size n
+  const list: number[][] = new Array(mat.n);
+  for (let i: number = 0; i < mat.n; i++) {
+    list[i] = [];
+    for (let j = 0; j < mat.n; j++) {
+      if (mat.data[i][j] !== null && i !== j) {
+        list[i].push(j);
+      } else {
+        list[i].push(-1);
+      }
+    }
+  }
+  return { n: mat.n, data: list };
+}

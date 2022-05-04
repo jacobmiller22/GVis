@@ -43,8 +43,8 @@ const DFSView = () => {
     setBfsLabels(newLabels);
   };
 
-  const onRootChange = (root: [number, number]) => {
-    setRoot(root);
+  const onRootChange = (root: number) => {
+    setRoot([root, root]);
   };
 
   const onIteration = (steps: { msg: string; edges: [number, number][] }[]) => {
