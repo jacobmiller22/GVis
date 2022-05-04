@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { AdjacencyMatrix, SimulationControls } from "components";
+import { AdjacencyMatrix, Introduction, SimulationControls } from "components";
 import { arr2mat, SymmetricMatrix } from "lib/matrix";
 import { adjacencyMat2List, dfs } from "lib/algo";
 import { Typography } from "@mui/material";
@@ -7,11 +7,11 @@ import styles from "./DFSView.module.css";
 import useLocalStorageState from "use-local-storage-state";
 
 const DFSView = () => {
-  const [savedData, setSavedData] = useLocalStorageState("bfsData", {
+  const [savedData, setSavedData] = useLocalStorageState("dfsData", {
     ssr: false,
     defaultValue: { ...INIT_BFS_DATA },
   });
-  const [savedLabels, setSavedLabels] = useLocalStorageState("bfsLabels", {
+  const [savedLabels, setSavedLabels] = useLocalStorageState("dfsLabels", {
     ssr: false,
     defaultValue: [...INIT_BFS_LABELS],
   });
@@ -56,9 +56,8 @@ const DFSView = () => {
 
   return (
     <div className={styles["container"]}>
-      <Typography variant="h5">Depth First Search</Typography>
-      <Typography variant="body1">{intro}</Typography>
-
+      <Introduction title="Depth-First Search" body={introBody} />
+      <br />
       <AdjacencyMatrix
         initialLabels={bfsLabels}
         initialMatrix={bfsData}
@@ -84,7 +83,7 @@ export default DFSView;
 const INIT_BFS_DATA = arr2mat([0, 48, 39, 0, 32, 0], 3);
 const INIT_BFS_LABELS = ["A", "B", "C"];
 
-const intro = `
+const introBody = `
 This algorithm is used to find a spanning tree of a graph. It prefers
 depth over breadth as the name suggests. The graph and its resulting
 spanning tree will be represented by the below adjacency matrix. 

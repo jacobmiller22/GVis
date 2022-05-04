@@ -5,7 +5,7 @@ import styles from "./Header.module.css";
 
 const Header = () => {
   return (
-    <Toolbar>
+    <Toolbar className={styles["toolbar"]}>
       <div className={styles["content"]}>
         <Link href="/">
           <Typography className={styles["brand"]}>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { AdjacencyMatrix, SimulationControls } from "components";
+import { AdjacencyMatrix, Introduction, SimulationControls } from "components";
 import { arr2mat, SymmetricMatrix } from "lib/matrix";
 import { adjacencyMat2List, bfs } from "lib/algo";
 import { Typography } from "@mui/material";
@@ -56,13 +56,8 @@ const BFSView = () => {
 
   return (
     <div className={styles["container"]}>
-      <Typography variant="h5">Breadth First Search</Typography>
-      <Typography variant="body1">
-        This algorithm is used to find a spanning tree of a graph. It prefers
-        breadth over depth as the name suggests. The graph and its resulting
-        spanning tree will be represented by the below adjacency matrix.
-      </Typography>
-
+      <Introduction title="Breadth-First Search" body={introBody} />
+      <br />
       <AdjacencyMatrix
         initialLabels={bfsLabels}
         initialMatrix={bfsData}
@@ -87,3 +82,7 @@ export default BFSView;
 
 const INIT_BFS_DATA = arr2mat([0, 48, 39, 0, 32, 0], 3);
 const INIT_BFS_LABELS = ["A", "B", "C"];
+
+const introBody = `This algorithm is used to find a spanning tree of a graph. It prefers
+breadth over depth as the name suggests. The graph and its resulting
+spanning tree will be represented by the below adjacency matrix.`;
