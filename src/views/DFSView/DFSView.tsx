@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { AdjacencyMatrix, SimulationControls } from "components";
 import { arr2mat, SymmetricMatrix } from "lib/matrix";
-import { dfs } from "lib/algo";
+import { adjacencyMat2List, dfs } from "lib/algo";
 import { Typography } from "@mui/material";
 import styles from "./DFSView.module.css";
 import useLocalStorageState from "use-local-storage-state";
@@ -22,11 +22,11 @@ const DFSView = () => {
   const [isDirected, setIsDirected] = useState<boolean>(false);
   const [active, setActive] = useState<[number, number][]>([]);
   const [highlighted, setHighlighted] = useState<[number, number][]>([]);
-  const [root, setRoot] = useState<[number, number]>([0, 0]);
+  const [root, setRoot] = useState<number>(0);
 
   useEffect(() => {
     // Update the DFS Generator function with the new matrix.
-    setDfsGenerator(dfs(bfsData, root, isDirected));
+    setDfsGenerator(dfs(adjacencyMat2List(bfsData), root, isDirected));
     setSavedData(bfsData);
     setSavedLabels(bfsLabels);
     setActive([]);
@@ -44,7 +44,7 @@ const DFSView = () => {
   };
 
   const onRootChange = (root: number) => {
-    setRoot([root, root]);
+    setRoot(root);
   };
 
   const onIteration = (steps: { msg: string; edges: [number, number][] }[]) => {
